@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generador de Exámenes con Gemini</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    label, input, textarea, button {
+      display: block;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 600px;
+    }
+    #respuesta {
+      white-space: pre-wrap;
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generador de Exámenes desde PDF</h1>
+
+  <form id="formulario">
+    <label for="archivo">Selecciona un archivo PDF:</label>
+    <input type="file" id="archivo" name="archivo" accept="application/pdf" required />
+
+    <label for="materia">Materia:</label>
+    <input type="text" id="materia" name="materia" required />
+
+    <label for="tematica">Temática:</label>
+    <input type="text" id="tematica" name="tematica" required />
+
+    <label for="tipoPregunta">Tipo de pregunta:</label>
+    <input type="text" id="tipoPregunta" name="tipoPregunta" value="Opción múltiple" required />
+
+    <label for="cantidadPreguntas">Cantidad de preguntas:</label>
+    <input type="number" id="cantidadPreguntas" name="cantidadPreguntas" value="10" required />
+
+    <label for="promt">Instrucción general:</label>
+    <textarea id="promt" name="promt" rows="4" required>Redacta preguntas claras y variadas que cubran los conceptos clave.</textarea>
+
+    <button type="submit">Generar Examen</button>
+  </form>
+
+  <div id="respuesta"></div>
+
+  <script>
+    const formulario = document.getElementById("formulario");
+    const respuestaDiv = document.getElementById("respuesta");
+
+    formulario.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(formulario);
+
+      try {
+        const res = await fetch("http://127.0.0.1:8000/gemini/generarExamenDesdePDF", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!res.ok) {
+          throw new Error("Error al generar el examen");
+        }
+
+        const data = await res.json();
+        respuestaDiv.textContent = data.examen || "No se recibió una respuesta válida.";
+      } catch (err) {
+        respuestaDiv.textContent = "Ocurrió un error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
