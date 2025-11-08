@@ -24,9 +24,10 @@ Formato esperado:
 - Si es verdadero/falso:
   - Cada pregunta debe comenzar con "**Pregunta X:**"
   - Enunciado seguido de "Verdadero" o "Falso"
+  - Añade siempre un espacio y "( )" al final del enunciado antes de la palabra Verdadero/Falso
   - Ejemplo:
     **Pregunta 1:**
-    ITIL es un marco de gestión de servicios. Verdadero
+    ITIL es un marco de gestión de servicios. ( ) Verdadero
 
 - Si es completación:
   - Cada pregunta debe comenzar con "**Pregunta X:**"

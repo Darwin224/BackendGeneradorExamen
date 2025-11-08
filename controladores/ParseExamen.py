@@ -44,28 +44,42 @@ def parse_opcion_multiple(texto: str) -> list:
     return preguntas
 
 
+import re
 
 def parse_verdadero_falso(texto: str) -> list:
     preguntas = []
-    bloques = re.split(r"\n\s*\d+\.\s", texto.strip())
 
-    for bloque in bloques:
-        match = re.match(r"(.*?)(Verdadero|Falso)", bloque.strip(), re.IGNORECASE)
-        if match:
-            pregunta = match.group(1).strip()
-            respuesta = match.group(2).capitalize()
-            preguntas.append({
-                "pregunta": pregunta,
-                "respuesta_correcta": respuesta
-            })
-        else:
-            preguntas.append({
-                "pregunta": bloque.strip(),
-                "respuesta_correcta": None,
-                "error": "Formato incompleto"
-            })
+    # Buscar bloques que comiencen explícitamente con "**Pregunta N:**" y capturarlos
+    pattern = re.compile(r"\*\*Pregunta\s+\d+\:\*\*\s*(.*?)(?=(\*\*Pregunta\s+\d+\:\*\*)|$)", re.DOTALL | re.IGNORECASE)
+    for m in pattern.finditer(texto):
+        bloque = m.group(1).strip()
+        if not bloque:
+            continue
+
+        # Buscar enunciado seguido de "Verdadero" o "Falso"
+        match = re.search(r"(.*?)(\bVerdadero\b|\bFalso\b)\.?\s*$", bloque, re.IGNORECASE)
+        if not match:
+            # Intentar también si la respuesta está en la misma línea sin punto final
+            match = re.search(r"(.*?)(\bVerdadero\b|\bFalso\b)", bloque, re.IGNORECASE)
+        if not match:
+            continue
+
+        enunciado = match.group(1).strip()
+        respuesta = match.group(2).capitalize()
+
+        # Filtrar enunciados demasiado cortos (probables encabezados o ruido)
+        if len(enunciado.split()) < 3:
+            continue
+
+        preguntas.append({
+            "pregunta": enunciado,
+            "respuesta_correcta": respuesta
+        })
 
     return preguntas
+
+
+
 
 def parse_completacion(texto: str) -> list:
     preguntas = []
