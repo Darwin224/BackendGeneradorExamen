@@ -2,6 +2,8 @@ from fastapi import APIRouter, Form
 from pydantic import BaseModel
 #from db.conexion import obtenerProductos
 # from modelos.UsuarioModel import locales
+from controladores.ParseExamen import parse_examen_gemini
+from controladores.contruirPromt import construir_prompt
 from modelos.Gemini import geminiModel
 
 
@@ -58,37 +60,23 @@ def generar_respuesta(prompt: geminiModel):
 
 #####################################################
 
-PROMPT_FIJO = """
-Redacta un examen de opción múltiple basado en el siguiente contenido.
-Incluye 10 preguntas, cada una con 4 opciones. Marca la respuesta correcta.
-"""
-
-
-
 @router.post("/generarExamenDesdePDF")
 async def generar_examen_desde_pdf(
     archivo: UploadFile = File(...),
-    promt: str = Form(...),
     materia: str = Form(...),
     tematica: str = Form(...),
     tipoPregunta: str = Form(...),
-    cantidadPreguntas: str = Form(...)
+    cantidadPreguntas: str = Form(...),
+    puntajeTotal: str = Form(...)
 ):
     contenido_pdf = await extraer_texto_pdf(archivo)
-
-
-    prompt_completo = f"""
-Redacta un examen de {tipoPregunta} basado en el siguiente contenido.
-
-Materia: {materia}
-Temática: {tematica}
-Cantidad de preguntas: {cantidadPreguntas}
-
-Instrucción general: {promt}
-
-Contenido del PDF:
-{contenido_pdf}
-"""
+    prompt_completo = construir_prompt(
+        tipoPregunta, materia, tematica, cantidadPreguntas, puntajeTotal, contenido_pdf
+    )
 
     respuesta = geminiGenerador(prompt_completo)
-    return {"examen": respuesta}
+    print("🔍 Texto generado por Gemini:\n", respuesta)
+
+    respuesta = geminiGenerador(prompt_completo)
+    examen_json = parse_examen_gemini(respuesta, tipoPregunta)
+    return {"examen": examen_json}
