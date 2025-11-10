@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from Router.UsuarioRutas import router as usuario_router
 from Router.ExamenRutas import router as examen_router
 from Router.ReporteRuta import router as reporte_router
-from Router.usuarios import router as gemini
+from Router.GeminiRuta import router as gemini
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -23,4 +23,4 @@ app.add_middleware(
 app.include_router(usuario_router, prefix="/usuario", tags=["Usuario"])
 app.include_router(examen_router, prefix="/examen", tags=["Examen"])
 app.include_router(reporte_router, prefix="/reporte", tags=["Reporte"])
-app.include_router(gemini, prefix="/gemini")
+app.include_router(gemini, prefix="/gemini", tags=["Gemini"])

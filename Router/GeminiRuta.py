@@ -75,7 +75,7 @@ async def generar_examen_desde_pdf(
     )
 
     respuesta = geminiGenerador(prompt_completo)
-    print("🔍 Texto generado por Gemini:\n", respuesta)
+    #print("🔍 Texto generado por Gemini:\n", respuesta)
 
     respuesta = geminiGenerador(prompt_completo)
     examen_json = parse_examen_gemini(respuesta, tipoPregunta)

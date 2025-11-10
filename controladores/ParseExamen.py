@@ -34,19 +34,15 @@ def parse_opcion_multiple(texto: str) -> list:
         # Extraer la pregunta antes de A)
         pregunta_match = re.search(r"(.*?)A\)", bloque, re.DOTALL)
         pregunta = pregunta_match.group(1).strip() if pregunta_match else "Pregunta no encontrada"
+        pregunta_completa = pregunta + '\n' + '\n'.join(opciones)
 
         preguntas.append({
-            "pregunta": pregunta,
-            "opciones": opciones,
+            "pregunta": pregunta_completa,
             "respuesta_correcta": respuesta_correcta
         })
 
     return preguntas
 
-
-import re
-
-import re
 
 def parse_verdadero_falso(texto: str) -> list:
     preguntas = []
@@ -82,7 +78,6 @@ def parse_verdadero_falso(texto: str) -> list:
 
 
 
-import re
 
 def parse_completacion(texto: str) -> list:
     """
