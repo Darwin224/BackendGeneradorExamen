@@ -1,42 +1,44 @@
-def construir_prompt(tipo, materia, tematica, cantidad, puntaje, contenido_pdf):
+def construir_prompt(tipo, materia, tematica, cantidad, contenido_pdf):
     return f"""
-Redacta un examen de tipo {tipo} basado en el siguiente contenido.
+Genera EXACTAMENTE {cantidad} preguntas del tipo: {tipo}.
+No generes ningún otro tipo de pregunta.
+Si el tipo es completación, entonces TODAS las preguntas deben ser de completación.
 
 Materia: {materia}
 Temática/Unidad: {tematica}
-Cantidad de preguntas: {cantidad}
-Puntaje total: {puntaje}
 
-Formato esperado:
-- Si es opción múltiple:
+Formato esperado por tipo:
+
+Si el tipo es "mixta":
+- Debes generar preguntas: de opción múltiple, de verdadero/falso y de completación.
+- Distribuye las {cantidad} preguntas en partes iguales entre los formatos.
+- NO mezcles formatos dentro de una pregunta.
+- Usa siempre "Respuesta correcta: X" solo para opción múltiple.
+- Usa "( ) Verdadero" o "( ) Falso" en V/F.
+- Usa "Respuesta: ..." en completación.
+
+
+- Opción múltiple:
   - Cada pregunta debe comenzar con "**Pregunta X:**"
   - Debe tener 4 opciones: A), B), C), D)
   - Al final de cada pregunta, incluye una línea con "Respuesta correcta: X"
-  - Ejemplo:
-    **Pregunta 1:**
-    ¿Qué es ITIL?
-    A) Un marco de gestión de servicios
-    B) Un lenguaje de programación
-    C) Un sistema operativo
-    D) Un protocolo de red
-    Respuesta correcta: A
 
-- Si es verdadero/falso:
+- Verdadero/Falso:
   - Cada pregunta debe comenzar con "**Pregunta X:**"
-  - Enunciado seguido de "Verdadero" o "Falso"
-  - Añade siempre un espacio y "( )" al final del enunciado antes de la palabra Verdadero/Falso
-  - Ejemplo:
-    **Pregunta 1:**
-    ITIL es un marco de gestión de servicios. ( ) Verdadero
+  - El enunciado debe terminar con "( ) Verdadero" o "( ) Falso"
 
-- Si es completación:
+- Completación:
   - Cada pregunta debe comenzar con "**Pregunta X:**"
-  - Enunciado con espacio en blanco
-  - Al final, incluye una línea con "Respuesta: ..."
-  - Ejemplo:
-    **Pregunta 1:**
-    El marco de gestión de servicios más utilizado en TI es ______.
-    Respuesta: ITIL
+  - El enunciado debe contener un espacio en blanco "______"
+  - Al final, incluye una línea con "Respuesta: ..." (NO usar "Respuesta correcta")
+
+Reglas estrictas:
+- NO mezcles formatos.
+- NO generes preguntas repetidas.
+- NO uses "Respuesta correcta" en completación.
+- SE RIGUROSO CON LOS FORMATOS.
+- Usa exclusivamente el formato correspondiente al tipo indicado.
+- El número total de preguntas debe ser EXACTAMENTE {cantidad}.
 
 Contenido del PDF:
 {contenido_pdf}

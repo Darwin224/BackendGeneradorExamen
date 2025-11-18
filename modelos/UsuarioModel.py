@@ -91,3 +91,16 @@ class UsuarioAdministrativoRead(BaseModel):
     nombreUsuarioAdministrativo: str
     FKempleadoID: int
     FKpermisoID: int
+
+
+###################Login#############################
+# modelos/LoginModel.py
+from pydantic import BaseModel
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class LoginResponse(BaseModel):
+    token: str
+    user: dict   # o UsuarioFinalRead si quieres tipado estricto

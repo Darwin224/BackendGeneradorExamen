@@ -4,6 +4,43 @@ from modelos.UsuarioModel import (
     EmpleadoCreate, PermisoCreate, UsuarioAdministrativoCreate
 )
 
+from db.conexion import supabase
+from modelos.UsuarioModel import LoginRequest
+from passlib.context import CryptContext
+from jose import jwt
+from datetime import datetime, timedelta
+#-----------------Login----------------#
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+SECRET_KEY = "super_secret_key"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+def crear_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+def login_usuario(request: LoginRequest):
+    # Traer usuarios con sus relaciones
+    response = supabase.schema("usuario").table("usuarioFinal").select("*, profesion(*), persona(*)").execute()
+    usuarios = response.data
+
+    # Buscar usuario por correo electrónico en la relación persona
+    usuario = next((u for u in usuarios if u["persona"]["correoElectronico"] == request.email), None)
+    if not usuario:
+        return None, "Usuario no encontrado"
+
+    # Validar contraseña en texto plano
+    if request.password != usuario["claveUsuarioFinal"]:
+        return None, "Contraseña incorrecta"
+
+    # Crear token JWT
+    token = crear_token({"sub": usuario["nombreUsuarioFinal"]})
+
+    return {"token": token, "user": usuario}, None
 # ---------- Persona ----------
 def crearPersona(persona: PersonaCreate):
     data = persona.model_dump()

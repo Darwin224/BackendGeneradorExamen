@@ -1,10 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from modelos.UsuarioModel import (
-    PersonaCreate, ProfesionCreate, UsuarioFinalCreate,
+    LoginRequest, PersonaCreate, ProfesionCreate, UsuarioFinalCreate,
     EmpleadoCreate, PermisoCreate, UsuarioAdministrativoCreate
 )
 from controladores.UsuarioController import (
-    crearPersona, obtenerPersonas,
+    crearPersona, login_usuario, obtenerPersonas,
     crearProfesion, obtenerProfesiones,
     crearUsuarioFinal, obtenerUsuariosFinales,
     crearEmpleado, obtenerEmpleados,
@@ -13,6 +13,14 @@ from controladores.UsuarioController import (
 )
 
 router = APIRouter()
+
+#-------------Login-----------#
+@router.post("/login")
+def ruta_login(request: LoginRequest):
+    result, error = login_usuario(request)
+    if error:
+        raise HTTPException(status_code=401, detail=error)
+    return result
 
 # ---------- Persona ----------
 @router.post("/crearPersona")
