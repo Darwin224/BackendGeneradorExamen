@@ -6,42 +6,42 @@ from modelos.ExamenModel import (
 
 # ---------- Materia ----------
 def crearMateria(materia: MateriaCreate):
-    return supabase.table("materia").insert(materia.dict()).execute().data
+    return supabase.schema("examen").table("materia").insert(materia.model_dump()).execute().data
 
 def obtenerMaterias():
-    return supabase.table("materia").select("*").execute().data
+    return supabase.schema("examen").table("materia").select("*").execute().data
 
 # ---------- CategoriaDePregunta ----------
 def crearCategoriaDePregunta(categoria: CategoriaDePreguntaCreate):
-    return supabase.table("categoriaDePregunta").insert(categoria.dict()).execute().data
+    return supabase.schema("examen").table("categoriaDePregunta").insert(categoria.model_dump()).execute().data
 
 def obtenerCategoriasDePregunta():
-    return supabase.table("categoriaDePregunta").select("*").execute().data
+    return supabase.schema("examen").table("categoriaDePregunta").select("*").execute().data
 
 # ---------- CategoriaDeSeccion ----------
 def crearCategoriaDeSeccion(categoria: CategoriaDeSeccionCreate):
-    return supabase.table("categoriaDeSeccion").insert(categoria.dict()).execute().data
+    return supabase.schema("examen").table("categoriaDeSeccion").insert(categoria.model_dump()).execute().data
 
 def obtenerCategoriasDeSeccion():
-    return supabase.table("categoriaDeSeccion").select("*").execute().data
+    return supabase.schema("examen").table("categoriaDeSeccion").select("*").execute().data
 
 # ---------- Examen ----------
 def crearExamen(examen: ExamenCreate):
-    return supabase.table("examen").insert(examen.dict()).execute().data
+    return supabase.schema("examen").table("examen").insert(examen.model_dump()).execute().data
 
 def obtenerExamenes():
-    return supabase.table("examen").select("*, materia(*)").execute().data
+    return supabase.schema("examen").table("examen").select("*, materia(*)").execute().data
 
 # ---------- SeccionExamen ----------
 def crearSeccionExamen(seccion: SeccionExamenCreate):
-    return supabase.table("seccionExamen").insert(seccion.dict()).execute().data
+    return supabase.schema("examen").table("seccionExamen").insert(seccion.model_dump()).execute().data
 
 def obtenerSeccionesExamen():
-    return supabase.table("seccionExamen").select("*, categoriaDeSeccion(*), categoriaDePregunta(*)").execute().data
+    return supabase.schema("examen").table("seccionExamen").select("*, categoriaDeSeccion(*), categoriaDePregunta(*)").execute().data
 
 # ---------- Encabezado ----------
 def crearEncabezado(encabezado: EncabezadoCreate):
-    return supabase.table("encabezado").insert(encabezado.dict()).execute().data
+    return supabase.schema("examen").table("encabezado").insert(encabezado.model_dump()).execute().data
 
 def obtenerEncabezados():
-    return supabase.table("encabezado").select("*").execute().data
+    return supabase.schema("examen").table("encabezado").select("*").execute().data

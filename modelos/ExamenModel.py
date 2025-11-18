@@ -4,64 +4,64 @@ from datetime import date
 # ---------- Tablas base ----------
 
 class Materia(BaseModel):
-    id: int  # antes PKmateriaID
-    nombre: str  # antes nombreDeMateria
+    PKmateriaID: int  # antes PKmateriaID
+    nombreDeMateria: str  # antes nombreDeMateria
 
 class MateriaCreate(BaseModel):
-    nombre: str
+    nombreDeMateria: str
 
 class CategoriaDePregunta(BaseModel):
-    id: int  # antes PKcategoriaDePreguntaID
-    nombre: str  # antes nombreCategoriDePregunta
+    PKcategoriaDePregunta: int 
+    nombreCategoriaDePregunta: str 
 
 class CategoriaDePreguntaCreate(BaseModel):
-    nombre: str
+    nombreCategoriaDePregunta: str
 
 class CategoriaDeSeccion(BaseModel):
-    id: int  # antes PKcategoriaDeSeccionID
-    nombre: str  # antes nombreCategoriDeSeccion
-    materia_id: int  # antes FKmateria
+    PKcategoriaDeSeccionID: int  # antes PKcategoriaDeSeccionID
+    nombreCategoriaDeSeccion: str  # antes nombreCategoriDeSeccion
+    FKmateriaID: int  # antes FKmateria
 
 class CategoriaDeSeccionCreate(BaseModel):
-    nombre: str
-    materia_id: int
+    nombreCategoriaDeSeccion: str
+    FKmateriaID: int
 
 class Examen(BaseModel):
-    id: int  # antes PKexamenID
-    puntaje_examen: int
-    usuario_final_id: int  # antes FKusuarioFinalID
-    materia_id: int  # antes FKmateriaID
+    PKexamenID: int  
+    puntajeExamen: int
+    FKusuarioFinalID: int 
+    FKmateriaID: int  
 
 class ExamenCreate(BaseModel):
-    puntaje_examen: int
-    usuario_final_id: int
-    materia_id: int
+    puntajeExamen: int
+    FKusuarioFinalID: int
+    FKmateriaID: int
 
 class SeccionExamen(BaseModel):
-    id: int  # antes CPKseccionExamenID
-    examen_id: int  # antes CFKexamenID
-    seccion_direccion_archivo: str
-    categoria_de_seccion_id: int  # antes FKcategoriaDeSeccionID
-    categoria_de_pregunta_id: int  # antes FKcategoriaDePreguntaID
+    CPKseccionExamenID: int 
+    CFKexamenID: int 
+    seccionDireccionArchivo: str
+    FKcategoriaDeSeccionID: int 
+    FKcategoriaDePreguntaID: int 
 
 class SeccionExamenCreate(BaseModel):
-    examen_id: int
-    seccion_direccion_archivo: str
-    categoria_de_seccion_id: int
-    categoria_de_pregunta_id: int
+    CFKexamenID: int 
+    seccionDireccionArchivo: str
+    FKcategoriaDeSeccionID: int 
+    FKcategoriaDePreguntaID: int 
 
 class Encabezado(BaseModel):
-    id: int  # antes CPKencabezadoID
-    usuario_id: int  # antes CFKusuarioID
-    nombre_institucion: str
-    direccion_logo_institucion: str
-    departamento_educativo: str
+    CPKencabezadoID: int  # antes CPKencabezadoID
+    CFKusuarioFinalID: int  # antes CFKusuarioID
+    nombreInstitucion: str
+    direccionLogoInstitucion: str
+    departamentoEducativo: str
 
 class EncabezadoCreate(BaseModel):
-    usuario_id: int
-    nombre_institucion: str
-    direccion_logo_institucion: str
-    departamento_educativo: str
+    CFKusuarioFinalID: int  # antes CFKusuarioID
+    nombreInstitucion: str
+    direccionLogoInstitucion: str
+    departamentoEducativo: str
 
 # ---------- Modelos para solicitudes GET con joins ----------
 

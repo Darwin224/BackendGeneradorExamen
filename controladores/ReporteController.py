@@ -6,31 +6,31 @@ from modelos.ReporteModel import (
 
 # ---------- DatosUsuarioFinal ----------
 def crearDatosUsuarioFinal(datos: DatosUsuarioFinalCreate):
-    return supabase.table("datosUsuarioFinal").insert(datos.dict()).execute().data
+    return supabase.schema("reporte").table("datoDeUsuarioFinal").insert(datos.model_dump()).execute().data
 
 def obtenerDatosUsuarioFinales():
-    return supabase.table("datosUsuarioFinal").select("*").execute().data
+    return supabase.schema("reporte").table("datoDeUsuarioFinal").select("*").execute().data
 
 # ---------- Reporte ----------
 def crearReporte(reporte: ReporteCreate):
-    data = reporte.dict()
+    data = reporte.model_dump()
     data["fecha_reporte"] = data["fecha_reporte"].isoformat()
-    return supabase.table("reporte").insert(data).execute().data
+    return supabase.schema("reporte").table("reporte").insert(data).execute().data
 
 
 def obtenerReportes():
-    return supabase.table("reporte").select("*, datosUsuarioFinal(*)").execute().data
+    return supabase.schema("reporte").table("reporte").select("*").execute().data
 
 # ---------- DatoDePais ----------
 def crearDatoDePais(dato: DatoDePaisCreate):
-    return supabase.table("datoDePais").insert(dato.dict()).execute().data
+    return supabase.schema("reporte").table("datoDePais").insert(dato.model_dump()).execute().data
 
 def obtenerDatosDePais():
-    return supabase.table("datoDePais").select("*, reporte(*)").execute().data
+    return supabase.schema("reporte").table("datoDePais").select("*, reporte(*)").execute().data
 
 # ---------- DatoDeTema ----------
 def crearDatoDeTema(dato: DatoDeTemaCreate):
-    return supabase.table("datoDeTema").insert(dato.dict()).execute().data
+    return supabase.schema("reporte").table("datoDeTema").insert(dato.model_dump()).execute().data
 
 def obtenerDatosDeTema():
-    return supabase.table("datoDeTema").select("*, reporte(*)").execute().data
+    return supabase.schema("reporte").table("datoDeTema").select("*, reporte(*)").execute().data

@@ -10,9 +10,12 @@ from controladores.ReporteController import (
     crearDatoDeTema, obtenerDatosDeTema
 )
 
+
+
 router = APIRouter()
 
 # ---------- DatosUsuarioFinal ----------
+
 @router.post("/crearDatosUsuarioFinal")
 def ruta_crear_datos_usuario_final(datos: DatosUsuarioFinalCreate):
     return crearDatosUsuarioFinal(datos)

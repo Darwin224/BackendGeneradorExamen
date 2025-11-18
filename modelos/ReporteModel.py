@@ -4,47 +4,44 @@ from datetime import date
 # ---------- Tablas base ----------
 
 class DatosUsuarioFinal(BaseModel):
-    id: int  # antes PKdatosUsuarioFinalID
-    edad_promedio: int  # antes edadProemdioDeUsuarioFinal
-    cantidad_examen: int  # antes cantidadDeExamen
-    cantidad_usuario_final: int  # antes CantidadDeUsuarioFinal
+    PKdatosDeUsuarioFinalID: int  # antes PKdatosUsuarioFinalID
+    edadPromedioDeUsuarioFinal: int  # antes edadProemdioDeUsuarioFinal
+    cantidadDeExamen: int  # antes cantidadDeExamen
+    cantidadDeUsuarioFinal: int  # antes CantidadDeUsuarioFinal
+    FKdatoDeUsuarioFinal: int  # antes FKdatoDeUsuarioFinalID
 
 class DatosUsuarioFinalCreate(BaseModel):
-    edad_promedio: int
-    cantidad_examen: int
-    cantidad_usuario_final: int
+    edadPromedioDeUsuarioFinal: int  # antes edadProemdioDeUsuarioFinal
+    cantidadDeExamen: int  # antes cantidadDeExamen
+    cantidadDeUsuarioFinal: int  # antes CantidadDeUsuarioFinal
+    FKdatoDeUsuarioFinal: int  # antes FKdatoDeUsuarioFinalID
 
 class Reporte(BaseModel):
-    id: int  # antes PKreporteID
-    fecha_reporte: date  # antes fechaDeReporte
-    usuario_administrativo_id: int  # antes FKusuarioAdministrativoID
-    datos_usuario_final_id: int  # antes FKdatoDeUsuarioFinalID
+    PKreporteID: int  # antes PKreporteID
+    fechaDeReporte: date  # antes fechaDeReporte
+    FKusuarioAdministrativoID: int  # antes FKusuarioAdministrativoID
 
 class ReporteCreate(BaseModel):
-    fecha_reporte: date
-    usuario_administrativo_id: int
-    datos_usuario_final_id: int
+    fechaDeReporte: date  # antes fechaDeReporte
+    FKusuarioAdministrativoID: int  # antes FKusuarioAdministrativoID
 
 class DatoDePais(BaseModel):
-    id: int | None = None  # ← Supabase puede devolver sin PK explícita
-    reporte_id: int  # antes CFKreporteID
+    CFKreporteID: int  # antes CFKreporteID
     pais: str
-    cantidad_por_pais: int  # antes cantidadDeUsuarioFinalPorPais
+    cantidadDeUsuarioFinalPorPais: int  # antes cantidadDeUsuarioFinalPorPais
 
 class DatoDePaisCreate(BaseModel):
-    reporte_id: int
-    pais: str
-    cantidad_por_pais: int
+    CFKreporteID: int  # antes CFKreporteID
+    cantidadDeUsuarioFinalPorPais: int  # antes cantidadDeUsuarioFinalPorPais
+
 
 class DatoDeTema(BaseModel):
-    id: int | None = None
-    reporte_id: int  # antes CFKreporteID
+    CFKreporteID: int  # antes CFKreporteID
     tema: str
-    cantidad_por_tema: int  # antes cantidadPorTema
+    cantidadPorTema: int  # antes cantidadPorTema
 
 class DatoDeTemaCreate(BaseModel):
     reporte_id: int
-    tema: str
     cantidad_por_tema: int
 
 # ---------- Modelos para solicitudes GET con joins ----------

@@ -6,45 +6,45 @@ from modelos.UsuarioModel import (
 
 # ---------- Persona ----------
 def crearPersona(persona: PersonaCreate):
-    data = persona.dict()
-    data["fecha_nacimiento"] = data["fecha_nacimiento"].isoformat()  # 👈 conversión necesaria
-    return supabase.table("persona").insert(data).execute().data
+    data = persona.model_dump()
+    data["fechaDeNacimiento"] = data["fechaDeNacimiento"].isoformat()  # 👈 conversión necesaria
+    return supabase.schema("usuario").table("persona").insert(data).execute().data
 
 
 def obtenerPersonas():
-    return supabase.table("persona").select("*").execute().data
+    return supabase.schema("usuario").table("persona").select("*").execute().data
 
 # ---------- Profesion ----------
 def crearProfesion(profesion: ProfesionCreate):
-    return supabase.table("profesion").insert(profesion.dict()).execute().data
+    return supabase.schema("usuario").table("profesion").insert(profesion.model_dump()).execute().data
 
 def obtenerProfesiones():
-    return supabase.table("profesion").select("*").execute().data
+    return supabase.schema("usuario").table("profesion").select("*").execute().data
 
 # ---------- UsuarioFinal ----------
 def crearUsuarioFinal(usuario: UsuarioFinalCreate):
-    return supabase.table("usuarioFinal").insert(usuario.dict()).execute().data
+    return supabase.schema("usuario").table("usuarioFinal").insert(usuario.model_dump()).execute().data
 
 def obtenerUsuariosFinales():
-    return supabase.table("usuarioFinal").select("*, profesion(*), persona(*)").execute().data
+    return supabase.schema("usuario").table("usuarioFinal").select("*, profesion(*), persona(*)").execute().data
 
 # ---------- Empleado ----------
 def crearEmpleado(empleado: EmpleadoCreate):
-    return supabase.table("empleado").insert(empleado.dict()).execute().data
+    return supabase.schema("usuario").table("empleado").insert(empleado.model_dump()).execute().data
 
 def obtenerEmpleados():
-    return supabase.table("empleado").select("*").execute().data
+    return supabase.schema("usuario").table("empleado").select("*").execute().data
 
 # ---------- Permiso ----------
 def crearPermiso(permiso: PermisoCreate):
-    return supabase.table("permiso").insert(permiso.dict()).execute().data
+    return supabase.schema("usuario").table("permiso").insert(permiso.model_dump()).execute().data
 
 def obtenerPermisos():
-    return supabase.table("permiso").select("*").execute().data
+    return supabase.schema("usuario").table("permiso").select("*").execute().data
 
 # ---------- UsuarioAdministrativo ----------
 def crearUsuarioAdministrativo(usuario: UsuarioAdministrativoCreate):
-    return supabase.table("usuarioAdministrativo").insert(usuario.dict()).execute().data
+    return supabase.schema("usuario").table("usuarioAdministrativo").insert(usuario.model_dump()).execute().data
 
 def obtenerUsuariosAdministrativos():
-    return supabase.table("usuarioAdministrativo").select("*, empleado(*), permiso(*)").execute().data
+    return supabase.schema("usuario").table("usuarioAdministrativo").select("*, empleado(*), permiso(*)").execute().data
